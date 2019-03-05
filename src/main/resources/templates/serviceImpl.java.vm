@@ -1,10 +1,15 @@
 package ${package.ServiceImpl};
 
+import com.baomidou.mybatisplus.plugins.Page;
 import ${package.Entity}.${entity};
+import com.shuframework.${package.ModuleName}.query.${entity}DTO;
 import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
 import ${superServiceImplClassPackage};
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 
 /**
  * <p>
@@ -16,6 +21,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+
+    @Override
+    public Page<${entity}> selectPage(Page<${entity}> page, ${entity}DTO ${table.entityPath}DTO) {
+        List<SysUser> list = baseMapper.selectPageList(page, ${table.entityPath}DTO);
+        page.setRecords(list);
+        return page;
+    }
 
 }
 

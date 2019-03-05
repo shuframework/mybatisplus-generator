@@ -24,9 +24,8 @@
 #end
 #end
     </resultMap>
-
 #end
-#if(${baseColumnList})
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
 #foreach($field in ${table.commonFields})
@@ -35,5 +34,38 @@
         ${table.fieldNames}
     </sql>
 
+    <!-- 通用查询条件 -->
+    <sql id="Dynamic_Where_Query">
+        <where>
+            <if test="beginCreateTime != null ">
+                and create_time <![CDATA[ >= ]]> #{beginCreateTime}
+            </if>
+            <if test="endCreateTime != null ">
+                and create_time <![CDATA[ <= ]]> #{endCreateTime}
+            </if>
+#foreach($field in ${table.fields})
+##  根据数据库的类型来判断，它会是完整的含有类型长度，改为根据枚举类型是String来判断
+###if(${field.type.indexOf("char")} != -1)
+#if(${field.columnType.type} == 'String')
+            <if test="${field.propertyName} != null and ${field.propertyName} != '' ">
+                and ${field.name} = #{${field.propertyName}}
+            </if>
+##    #elseif("$!field.type" == "datetime")
+#else
+            <if test="${field.propertyName} != null">
+                and ${field.name} = #{${field.propertyName}}
+            </if>
 #end
+#end
+        </where>
+    </sql>
+
+    <!-- 查询 -->
+    <select id="selectPageList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        ${table.name}
+        <include refid="Dynamic_Where_Query" />
+    </select>
+
 </mapper>

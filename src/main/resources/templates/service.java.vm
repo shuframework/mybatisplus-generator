@@ -1,6 +1,8 @@
 package ${package.Service};
 
+import com.baomidou.mybatisplus.plugins.Page;
 import ${package.Entity}.${entity};
+import com.shuframework.${package.ModuleName}.query.${entity}DTO;
 import ${superServiceClassPackage};
 
 /**
@@ -12,6 +14,8 @@ import ${superServiceClassPackage};
  * @since ${date}
  */
 public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+
+    Page<${entity}> selectPage(Page<${entity}> page, ${entity}DTO ${table.entityPath}DTO);
 
 }
 

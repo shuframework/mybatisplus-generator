@@ -1,7 +1,10 @@
 package ${package.Mapper};
 
+import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import ${package.Entity}.${entity};
+import com.shuframework.${package.ModuleName}.query.${entity}DTO;
 import ${superMapperClassPackage};
+import java.util.List;
 
 /**
  * <p>
@@ -12,6 +15,8 @@ import ${superMapperClassPackage};
  * @since ${date}
  */
 public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
+
+    List<${entity}> selectPageList(Pagination page, ${entity}DTO ${table.entityPath}DTO);
 
 }
 

@@ -44,6 +44,10 @@ public class MybatisGenerator {
         String moduleName = "admin";
         String[] tables = {"sys_user"};
         generatorJava(author, moduleName, tables);
+
+//        // 转换输出, 去除velocity代码缩进的空格符
+//        ve.evaluate(context, writer, "", template.replaceAll(
+//                "[ ]*(#if|#else|#elseif|#end|#set|#foreach)", "$1"));
     }
 
     private static void generatorJava(String author, String moduleName, String... tables) {

@@ -37,7 +37,11 @@ public class ${entity}DTO extends BaseDTO implements Serializable {
 ## ----------  BEGIN 字段循环遍历  ----------
 #foreach($field in ${table.fields})
 ## dto不用注解
+#if("$!field.comment" != "")
+    /** ${field.comment} */
+#end
     private ${field.propertyType} ${field.propertyName};
+
 #end
 ## ----------  END 字段循环遍历  ----------
 #if(!${entityLombokModel})
