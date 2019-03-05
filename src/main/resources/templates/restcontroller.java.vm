@@ -50,19 +50,19 @@ public class ${table.controllerName} {
      */
     @RequestMapping("/selectPage")
     public Result selectPage(@RequestBody ${entity}DTO ${table.entityPath}DTO){
-        Page page = new Page();
-        ${table.entityPath}Service.selectPage(page);
+        Page<${entity}> page = new Page(${table.entityPath}DTO.getPageIndex, ${table.entityPath}DTO.getPageSize);
+        page = sysUserService.selectPage(page, sysUserDTO);
         return ResultUtil.success(page);
     }
-
-    /**
-     * 获取全部数据
-     */
-    @RequestMapping("/findAll")
-    public Result findAll(@RequestBody ${entity}DTO ${table.entityPath}DTO){
-        List<${entity}> list = ${table.entityPath}Service.selectList(null);
-        return ResultUtil.success(list);
-    }
+##
+##    /**
+##     * 获取全部数据
+##     */
+##    @RequestMapping("/findAll")
+##    public Result findAll(@RequestBody ${entity}DTO ${table.entityPath}DTO){
+##        List<${entity}> list = ${table.entityPath}Service.selectList(null);
+##        return ResultUtil.success(list);
+##    }
 
     /**
      * 根据ID查找数据

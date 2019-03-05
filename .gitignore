@@ -13,5 +13,7 @@ target/
 .project
 Servers/
 
-
+# auto-code #
+*.java
+*.xml
 velocity.log

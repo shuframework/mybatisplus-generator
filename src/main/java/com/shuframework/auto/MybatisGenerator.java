@@ -42,7 +42,8 @@ public class MybatisGenerator {
     public static void main(String[] args) {
         String author = "shuheng";
         String moduleName = "admin";
-        String[] tables = {"sys_user"};
+        String[] tables = {"sys_area","sys_dept","sys_dictionary","sys_log",
+                "sys_menu","sys_role","sys_role_menu","sys_user","sys_user_role"};
         generatorJava(author, moduleName, tables);
 
 //        // 转换输出, 去除velocity代码缩进的空格符

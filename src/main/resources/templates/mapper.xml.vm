@@ -64,7 +64,7 @@
     <select id="selectPageList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
-        ${table.name}
+        from ${table.name}
         <include refid="Dynamic_Where_Query" />
     </select>
 
