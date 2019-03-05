@@ -13,3 +13,5 @@ target/
 .project
 Servers/
 
+
+velocity.log
