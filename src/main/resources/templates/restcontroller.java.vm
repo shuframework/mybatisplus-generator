@@ -50,8 +50,8 @@ public class ${table.controllerName} {
      */
     @RequestMapping("/selectPage")
     public Result selectPage(@RequestBody ${entity}DTO ${table.entityPath}DTO){
-        Page<${entity}> page = new Page(${table.entityPath}DTO.getPageIndex, ${table.entityPath}DTO.getPageSize);
-        page = sysUserService.selectPage(page, sysUserDTO);
+        Page<${entity}> page = new Page(${table.entityPath}DTO.getPageIndex(), ${table.entityPath}DTO.getPageSize());
+        page = ${table.entityPath}Service.selectPage(page, ${table.entityPath}DTO);
         return ResultUtil.success(page);
     }
 ##
