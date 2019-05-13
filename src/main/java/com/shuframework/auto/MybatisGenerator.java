@@ -41,9 +41,10 @@ public class MybatisGenerator {
      */
     public static void main(String[] args) {
         String author = "shuheng";
+//        String moduleName = "im";
+//        String[] tables = {"t_user"};
         String moduleName = "admin";
-        String[] tables = {"sys_area","sys_dept","sys_dictionary","sys_log",
-                "sys_menu","sys_role","sys_role_menu","sys_user","sys_user_role"};
+        String[] tables = {"sys_dictionary","sys_log","sys_menu","sys_role","sys_role_menu","sys_user","sys_user_role"};
         generatorJava(author, moduleName, tables);
 
 //        // 转换输出, 去除velocity代码缩进的空格符
@@ -88,7 +89,7 @@ public class MybatisGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(moduleName);  //所属模块
-        pc.setParent("com.shuframework"); // 自定义包路径
+        pc.setParent("com.tt.bcim"); // 自定义包路径
         pc.setController("controller"); // 这里是控制器包名，默认 web
         pc.setEntity("model");
         pc.setXml("sqlMapperXml");

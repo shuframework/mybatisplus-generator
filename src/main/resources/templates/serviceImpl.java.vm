@@ -2,7 +2,7 @@ package ${package.ServiceImpl};
 
 import com.baomidou.mybatisplus.plugins.Page;
 import ${package.Entity}.${entity};
-import com.shuframework.${package.ModuleName}.query.${entity}DTO;
+import com.tt.bcim.${package.ModuleName}.query.${entity}DTO;
 import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
 import ${superServiceImplClassPackage};
@@ -24,7 +24,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 
     @Override
     public Page<${entity}> selectPage(Page<${entity}> page, ${entity}DTO ${table.entityPath}DTO) {
-        List<SysUser> list = baseMapper.selectPageList(page, ${table.entityPath}DTO);
+        List<${entity}> list = baseMapper.selectPageList(page, ${table.entityPath}DTO);
         page.setRecords(list);
         return page;
     }
