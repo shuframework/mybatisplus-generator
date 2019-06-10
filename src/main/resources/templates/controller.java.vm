@@ -2,18 +2,18 @@ package ${package.Controller};
 
 import com.baomidou.mybatisplus.plugins.Page;
 import ${package.Entity}.${entity};
-import com.shuframework.${package.ModuleName}.query.${entity}DTO;
+import com.tt.bcim.${package.ModuleName}.query.${entity}DTO;
 import ${package.Service}.${table.serviceName};
-import com.shuframework.commonbase.enums.FailureEnum;
-import com.shuframework.commonbase.result.Result;
-import com.shuframework.commonbase.result.ResultUtil;
+import com.tt.bcim.commonbase.enums.FailureEnum;
+import com.tt.bcim.commonbase.result.Result;
+import com.tt.bcim.commonbase.result.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ import ${superControllerClassPackage};
  * @author ${author}
  * @since ${date}
  */
-@RestController
+@Controller
 @RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
 #if(${kotlin})
 class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
@@ -44,30 +44,32 @@ public class ${table.controllerName} {
     @Autowired
     private ${table.serviceName} ${table.entityPath}Service;
 
+    /**
+     * 用户管理页
+     *
+     * @return
+     */
+    @GetMapping(value = "/list")
+    public String list(){
+        return "/${package.ModuleName}/${table.entityPath}";
+    }
 
     /**
      * 获取数据列表
      */
-    @RequestMapping("/selectPage")
-    public Result selectPage(@RequestBody ${entity}DTO ${table.entityPath}DTO){
+    @PostMapping("/listData")
+    @ResponseBody
+    public Result listData(@RequestBody ${entity}DTO ${table.entityPath}DTO){
         Page<${entity}> page = new Page(${table.entityPath}DTO.getPageIndex(), ${table.entityPath}DTO.getPageSize());
         page = ${table.entityPath}Service.selectPage(page, ${table.entityPath}DTO);
         return ResultUtil.success(page);
     }
-##
-##    /**
-##     * 获取全部数据
-##     */
-##    @RequestMapping("/findAll")
-##    public Result findAll(@RequestBody ${entity}DTO ${table.entityPath}DTO){
-##        List<${entity}> list = ${table.entityPath}Service.selectList(null);
-##        return ResultUtil.success(list);
-##    }
 
     /**
      * 根据ID查找数据
      */
-    @RequestMapping("/detail")
+    @GetMapping("/detail")
+    @ResponseBody
     public Result detail(@RequestParam("id") Long id){
         ${entity} ${table.entityPath} = ${table.entityPath}Service.selectById(id);
         if(${table.entityPath} == null){
@@ -77,9 +79,29 @@ public class ${table.controllerName} {
     }
 
     /**
+     * 添加页面
+     */
+    @GetMapping(value = "/addPage")
+    public String addPage() {
+        return "/${package.ModuleName}/${table.entityPath}Add";
+    }
+
+    /**
+     * 编辑页面
+     */
+    @GetMapping(value = "/editPage")
+    public String editPage(Long id) {
+        Result result = detail(id);
+        model.addAttribute("${table.entityPath}", result.getData());
+        return "/${package.ModuleName}/${table.entityPath}Add";
+    }
+
+
+    /**
      * 添加数据
      */
     @PostMapping(value = "/insert")
+    @ResponseBody
     public Result insert(@RequestBody ${entity} ${table.entityPath}){
         boolean flag = ${table.entityPath}Service.insert(${table.entityPath});
         if(flag){
@@ -92,6 +114,7 @@ public class ${table.controllerName} {
      * 更新数据
      */
     @PostMapping(value = "/update")
+    @ResponseBody
     public Result update(@RequestBody ${entity} ${table.entityPath}){
         boolean isOk = ${table.entityPath}Service.updateAllColumnById(${table.entityPath});
         if(isOk){
@@ -103,7 +126,8 @@ public class ${table.controllerName} {
     /**
      * 删除数据
      */
-    @RequestMapping("/delete")
+    @GetMapping("/delete")
+    @ResponseBody
     public Result delete(@RequestParam("ids") List<Long> ids){
         boolean isOk = ${table.entityPath}Service.deleteBatchIds(ids);
         if(isOk){

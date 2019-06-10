@@ -3,10 +3,8 @@ package ${package.Entity};
 #foreach($pkg in ${table.importPackages})
 import ${pkg};
 #end
+
 #if(${entityLombokModel})
-
-import com.baomidou.mybatisplus.annotations.Version;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -18,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author ${author}
- * @since ${date}
+ * @since 2019-05-11
  */
 #if(${entityLombokModel})
 @Data
@@ -82,7 +80,6 @@ public class ${entity} implements Serializable {
 
 #end
 ## ----------  END 字段循环遍历  ----------
-
 #if(!${entityLombokModel})
 #foreach($field in ${table.fields})
 #if(${field.propertyType.equals("boolean")})
@@ -123,7 +120,6 @@ public class ${entity} implements Serializable {
         return null;
 #end
     }
-
 #end
 #if(!${entityLombokModel})
     @Override

@@ -1,12 +1,10 @@
-package com.shuframework.${package.ModuleName}.query;
+package com.tt.bcim.${package.ModuleName}.query;
 
-###foreach($pkg in ${table.importPackages})
-##import ${pkg};
-###end
 import java.io.Serializable;
 import java.util.Date;
 
-import com.shuframework.commoncore.base.BaseDTO;
+import com.tt.bcim.commonbiz.BaseDTO;
+
 #if(${entityLombokModel})
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -68,7 +66,6 @@ public class ${entity}DTO extends BaseDTO implements Serializable {
             }
     #end
 #end
-
 #if(!${entityLombokModel})
     @Override
     public String toString() {
