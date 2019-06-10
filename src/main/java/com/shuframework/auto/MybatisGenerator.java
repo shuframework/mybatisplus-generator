@@ -42,8 +42,8 @@ public class MybatisGenerator {
     public static void main(String[] args) {
         String author = "shuheng";
         String moduleName1 = "im";
-        String[] tables1 = {"t_user_friend"};
-        generatorJava(author, moduleName1, tables1);
+        String[] tables1 = {"t_user_collection"};
+        generatorJava(author, moduleName1, false, tables1);
 
 //        String moduleName = "admin";
 //        String[] tables = {"sys_dictionary","sys_log","sys_menu","sys_role","sys_role_menu","sys_user","sys_user_role"};
@@ -54,48 +54,17 @@ public class MybatisGenerator {
 //                "[ ]*(#if|#else|#elseif|#end|#set|#foreach)", "$1"));
     }
 
-    private static void generatorJava(String author, String moduleName, String... tables) {
-        /* 获取 JDBC 配置文件 */
-        Properties props = getProperties();
+//    private static void generatorJava(String author, String moduleName, String... tables) {
+//        generatorJava(author, moduleName, false, tables);
+//    }
+
+
+    private static void generatorJava(String author, String moduleName, boolean isRest, String... tables) {
+
         AutoGenerator mpg = new AutoGenerator();
 
         String outputDir = SystemUtil.USER_DIR + "/" + "src/main/java" + "/";
-        // 全局配置
-        GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir(outputDir);
-        gc.setFileOverride(true);
-        gc.setActiveRecord(false);// 关闭activeRecord 模式
-        gc.setEnableCache(false);// XML 二级缓存
-        gc.setBaseResultMap(true);// XML ResultMap
-        gc.setBaseColumnList(true);// XML columList
-        gc.setAuthor(author);
-
-        // 自定义文件命名，注意 %s 会自动填充表实体属性！
-        gc.setMapperName("%sMapper");
-        gc.setXmlName("%sMapper");
-        gc.setServiceName("%sService");
-        gc.setServiceImplName("%sServiceImpl");
-        gc.setControllerName("%sController");
-        mpg.setGlobalConfig(gc);
-
-        // 数据源配置
-        DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setDbType(DbType.MYSQL);
-        dsc.setTypeConvert(new MySqlTypeConvert());
-        dsc.setDriverName(props.getProperty("jdbc.driverClassName"));
-        dsc.setUrl(props.getProperty("jdbc.url"));
-        dsc.setUsername(props.getProperty("jdbc.username"));
-        dsc.setPassword(props.getProperty("jdbc.password"));
-        mpg.setDataSource(dsc);
-
-        // 包配置
-        PackageConfig pc = new PackageConfig();
-        pc.setModuleName(moduleName);  //所属模块
-        pc.setParent("com.tt.bcim"); // 自定义包路径
-        pc.setController("controller"); // 这里是控制器包名，默认 web
-        pc.setEntity("model");
-        pc.setXml("sqlMapperXml");
-        mpg.setPackageInfo(pc);
+        PackageConfig pc = initGlobalAndPackageConfig(author, moduleName, mpg, outputDir);
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
@@ -124,8 +93,12 @@ public class MybatisGenerator {
         // 自定义模板配置，可以 copy 源码 mybatis-plus/src/main/resources/templates 下面内容修改，
         // 放置自己项目的 src/main/resources/templates 目录下, 默认名称一下可以不配置，也可以自定义模板名称
         TemplateConfig tc = new TemplateConfig();
-        tc.setController("/templates/restcontroller.java.vm");
-//        tc.setController("/templates/controller.java.vm");
+        if (isRest) {
+            tc.setController("/templates/restcontroller.java.vm");
+        }else {
+            tc.setController("/templates/controller.java.vm");
+            //TODO 同时生成前端页面
+        }
         tc.setService("/templates/service.java.vm");
         tc.setServiceImpl("/templates/serviceImpl.java.vm");
         tc.setEntity("/templates/entity.java.vm");
@@ -140,6 +113,49 @@ public class MybatisGenerator {
         mpg.setCfg(cfg);
         // 执行生成
         mpg.execute();
+    }
+
+    private static PackageConfig initGlobalAndPackageConfig(String author, String moduleName, AutoGenerator mpg, String outputDir) {
+        // 全局配置
+        GlobalConfig gc = new GlobalConfig();
+        gc.setOutputDir(outputDir);
+        gc.setFileOverride(true);
+        gc.setActiveRecord(false);// 关闭activeRecord 模式
+        gc.setEnableCache(false);// XML 二级缓存
+        gc.setBaseResultMap(true);// XML ResultMap
+        gc.setBaseColumnList(true);// XML columList
+        gc.setAuthor(author);
+
+        // 自定义文件命名，注意 %s 会自动填充表实体属性！
+        gc.setMapperName("%sMapper");
+        gc.setXmlName("%sMapper");
+        gc.setServiceName("%sService");
+        gc.setServiceImplName("%sServiceImpl");
+        gc.setControllerName("%sController");
+        mpg.setGlobalConfig(gc);
+
+        /* 获取 JDBC 配置文件 */
+        Properties props = getProperties();
+        // 数据源配置
+        DataSourceConfig dsc = new DataSourceConfig();
+        dsc.setDbType(DbType.MYSQL);
+        dsc.setTypeConvert(new MySqlTypeConvert());
+        dsc.setDriverName(props.getProperty("jdbc.driverClassName"));
+        dsc.setUrl(props.getProperty("jdbc.url"));
+        dsc.setUsername(props.getProperty("jdbc.username"));
+        dsc.setPassword(props.getProperty("jdbc.password"));
+        mpg.setDataSource(dsc);
+
+        // 包配置
+        PackageConfig pc = new PackageConfig();
+        pc.setModuleName(moduleName);  //所属模块
+        pc.setParent("com.tt.bcim"); // 自定义包路径
+        pc.setController("controller"); // 这里是控制器包名，默认 web
+        pc.setEntity("model"); // 默认是entity
+        pc.setXml("sqlMapperXml"); // 默认是mapper.xml
+        mpg.setPackageInfo(pc);
+
+        return pc;
     }
 
     /**

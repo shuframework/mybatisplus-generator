@@ -120,7 +120,6 @@ public class ${entity} implements Serializable {
         return null;
 #end
     }
-
 #end
 #if(!${entityLombokModel})
     @Override

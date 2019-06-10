@@ -37,10 +37,10 @@
     <!-- 通用查询条件 -->
     <sql id="Dynamic_Where_Query">
         <where>
-            <if test="beginCreateTime != null ">
+            <if test="beginCreateTime != null and beginCreateTime != '' ">
                 and create_time <![CDATA[ >= ]]> #{beginCreateTime}
             </if>
-            <if test="endCreateTime != null ">
+            <if test="endCreateTime != null and endCreateTime != '' ">
                 and create_time <![CDATA[ <= ]]> #{endCreateTime}
             </if>
 #foreach($field in ${table.fields})
@@ -66,6 +66,7 @@
         <include refid="Base_Column_List" />
         from ${table.name}
         <include refid="Dynamic_Where_Query" />
+        order by create_time desc
     </select>
 
 </mapper>
