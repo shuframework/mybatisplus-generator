@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author ${author}
- * @since 2019-05-11
+ * @since ${date}
  */
 #if(${entityLombokModel})
 @Data

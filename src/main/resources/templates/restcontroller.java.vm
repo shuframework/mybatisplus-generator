@@ -2,11 +2,11 @@ package ${package.Controller};
 
 import com.baomidou.mybatisplus.plugins.Page;
 import ${package.Entity}.${entity};
-import com.tt.bcim.${package.ModuleName}.query.${entity}DTO;
+import com.shuframework.${package.ModuleName}.query.${entity}DTO;
 import ${package.Service}.${table.serviceName};
-import com.tt.bcim.commonbase.enums.FailureEnum;
-import com.tt.bcim.commonbase.result.Result;
-import com.tt.bcim.commonbase.result.ResultUtil;
+import com.shuframework.commonbase.enums.FailureEnum;
+import com.shuframework.commonbase.result.Result;
+import com.shuframework.commonbase.result.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

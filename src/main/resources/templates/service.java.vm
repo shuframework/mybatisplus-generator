@@ -2,7 +2,7 @@ package ${package.Service};
 
 import com.baomidou.mybatisplus.plugins.Page;
 import ${package.Entity}.${entity};
-import com.tt.bcim.${package.ModuleName}.query.${entity}DTO;
+import com.shuframework.${package.ModuleName}.query.${entity}DTO;
 import ${superServiceClassPackage};
 
 /**
